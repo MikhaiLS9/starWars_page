@@ -1,0 +1,30 @@
+.button {
+  padding: 6px 12px;
+  text-align: center;
+  font-weight: 700;
+  background: var(--button-bg);
+  border-radius: 6px;
+
+  width: 100px;
+  width: 100%;
+
+  color: var(--accent-color);
+  border: var(--border-color);
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--button-hover-bg);
+}
+
+.s {
+  width: 120px;
+}
+
+.m {
+  width: 150px;
+}
+
+.l {
+  width: 170px;
+}

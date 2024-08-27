@@ -1,0 +1,36 @@
+.overlay {
+  background: rgba(0, 0, 0, 0.2);
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+.modal {
+  position: absolute;
+  right: 24px;
+  bottom: 0;
+  overflow: auto;
+}
+
+.first {
+  z-index: 100;
+}
+
+.second {
+  z-index: 200;
+}
+
+.three {
+  z-index: 300;
+}
+
+.disable {
+  pointer-events: none;
+  opacity: 0.5;
+}
