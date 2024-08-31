@@ -3,23 +3,22 @@ import { useState } from "react";
 import ModalRequestsContainer from "../Modal/RequestsContainer/ModalRequestsStarWars";
 import ModuleRequestsBody from "../Modal/RequestsContainer/RequestsBody/RequestsBody";
 import Button from "../ui/Button/Button";
-import Ptag from "../ui/Ptag/Ptag";
 
 import styles from "./RequestPeople.module.css";
+import RequestNamePeople from "../Modal/RequestsContainer/RequestsBody/RequestNamePeople/RequestNamePeople";
 
 const RequestPeople = () => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
 
   return (
     <section className={styles.requestPeople}>
-      <div className={styles.requestPeopleBlock}>
-        <Ptag size="m">Чтобы получить имена сделайте</Ptag>
-        <Button appearance="m" onClick={() => setIsVisible((prev) => !prev)}>
-          Запрос
-        </Button>
-      </div>
+      <Button appearance="m" onClick={() => setIsVisible((prev) => !prev)}>
+        Открыть
+      </Button>
       <ModalRequestsContainer isVisible={isVisible} setIsVisible={setIsVisible}>
-        <ModuleRequestsBody />
+        <ModuleRequestsBody>
+          <RequestNamePeople />
+        </ModuleRequestsBody>
       </ModalRequestsContainer>
     </section>
   );

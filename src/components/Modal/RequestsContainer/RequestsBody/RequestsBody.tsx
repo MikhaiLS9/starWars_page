@@ -1,43 +1,15 @@
-import { useEffect, useState } from "react";
-import { baseUrl, baseApi, baseParams } from "../../../../api/api";
-import { ApiResponse } from "../../../../interfaces";
+import { PropsWithChildren } from "react";
 
-import useRequest from "../../../../hooks/useRequestStarWars";
 import Button from "../../../ui/Button/Button";
-import ModalSearchName from "./SearchNameBody/ModalSearchName";
 
 import styles from "./RequestsBody.module.css";
 
-const ModuleRequestsBody = () => {
-  const [trigger, setTrigger] = useState<boolean>(true);
+type ModuleRequestsBodyProps = PropsWithChildren;
 
-  const {
-    data: responseStarWars,
-    loading,
-    error,
-  } = useRequest<ApiResponse>(`${baseUrl}${baseApi}${baseParams}`, trigger, {
-    params: { page: "3" },
-  });
-
-  const starWarsPerson = responseStarWars?.results || [];
-
-  useEffect(() => {
-    if (!loading && trigger) {
-      setTrigger(false);
-    }
-  }, [loading, trigger]);
-
-  console.log(responseStarWars?.next);
-
+const ModuleRequestsBody = ({ children }: ModuleRequestsBodyProps) => {
   return (
     <div className={styles.moduleRequestsBody}>
-      <ModalSearchName
-       />
-
-      {starWarsPerson.map((persons) => (
-        <div key={persons.url}>{persons.name}</div>
-      ))}
-      {error && <div>error</div>}
+      {children}
 
       <Button appearance="xl">Загрузить еще</Button>
     </div>
