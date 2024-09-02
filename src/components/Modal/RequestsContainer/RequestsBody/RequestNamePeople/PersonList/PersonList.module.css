@@ -1,0 +1,12 @@
+.personList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid black;
+  border-radius: 16px;
+
+  position: relative;
+
+  cursor: pointer;
+} 

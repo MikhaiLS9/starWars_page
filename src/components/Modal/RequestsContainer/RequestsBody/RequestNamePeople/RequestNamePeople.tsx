@@ -5,7 +5,8 @@ import { ApiResponse } from "../../../../../interfaces";
 
 import SearchInput from "../../../../ui/SearchInput/SearchInput";
 import Button from "../../../../ui/Button/Button";
-import useFetch from "../../../../../hooks/UseFetch";
+import useFetch from "../../../../../hooks/useFetch";
+import PersonList from "./PersonList/PersonList";
 
 const RequestNamePeople = () => {
   const [searchName, setSearchName] = useState<string>("");
@@ -27,10 +28,7 @@ const RequestNamePeople = () => {
     if (data?.next) {
       setSearchNextPage(data.next);
     }
-    console.log("click");
   };
-
-  console.log(data);
 
   return (
     <>
@@ -42,11 +40,7 @@ const RequestNamePeople = () => {
       {loading && <div>Loading...</div>}
       {data && (
         <>
-          <ul>
-            {data.results.map((person) => (
-              <li key={person.name}>{person.name}</li>
-            ))}
-          </ul>
+            <PersonList personList={data.results}  />
           {data.next && (
             <Button type="button" appearance="xl" onClick={handleNextPage}>
               Загрузить еще
