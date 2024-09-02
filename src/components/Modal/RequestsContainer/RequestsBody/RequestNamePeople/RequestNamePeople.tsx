@@ -1,37 +1,61 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { baseUrl, baseApi, baseParams } from "../../../../../api/api";
-import useRequest from "../../../../../hooks/useRequestStarWars";
+import { useDebounce } from "../../../../../hooks/useDebounce";
 import { ApiResponse } from "../../../../../interfaces";
+
 import SearchInput from "../../../../ui/SearchInput/SearchInput";
+import Button from "../../../../ui/Button/Button";
+import useFetch from "../../../../../hooks/UseFetch";
 
 const RequestNamePeople = () => {
-  const [trigger, setTrigger] = useState<boolean>(true);
   const [searchName, setSearchName] = useState<string>("");
+  const [searchNextPage, setSearchNextPage] = useState<string | null>(null);
+  const debouncedSearchName = useDebounce(searchName, 700);
 
-  const { data, error, loading } = useRequest<ApiResponse>(
-    `${baseUrl}${baseApi}${baseParams}`,
-    trigger && searchName !== "",
-    { params: { search: searchName } }
-  );
+  const createFetchUrl = useCallback(() => {
+    const params = new URLSearchParams({
+      search: debouncedSearchName,
+    });
+    return searchNextPage
+      ? searchNextPage
+      : `${baseUrl}${baseApi}${baseParams}?${params.toString()}`;
+  }, [debouncedSearchName, searchNextPage]);
 
-  useEffect(() => {
-    if (!loading && trigger && searchName !== "") {
-      setTrigger(false);
+  const { data, loading, error } = useFetch<ApiResponse>(createFetchUrl());
+
+  const handleNextPage = () => {
+    if (data?.next) {
+      setSearchNextPage(data.next);
     }
-  }, [loading, trigger, searchName]);
+    console.log("click");
+  };
 
   console.log(data);
 
   return (
-    <div>
-      {loading && <div>Loading...</div>}
-
+    <>
       <SearchInput
-        setSearch={setSearchName}
-        textError={error}
+        textError={error?.message || null}
         delay={700}
-      ></SearchInput>
-    </div>
+        setSearch={setSearchName}
+      />
+      {loading && <div>Loading...</div>}
+      {data && (
+        <>
+          <ul>
+            {data.results.map((person) => (
+              <li key={person.name}>{person.name}</li>
+            ))}
+          </ul>
+          {data.next && (
+            <Button type="button" appearance="xl" onClick={handleNextPage}>
+              Загрузить еще
+            </Button>
+          )}
+        </>
+      )}
+    </>
   );
 };
+
 export default RequestNamePeople;

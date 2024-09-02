@@ -14,27 +14,30 @@ type SearchInputProps = PropsWithChildren<{
 const SearchInput = ({
   children,
   textError,
-  delay,
   setSearch,
+  delay,
 }: SearchInputProps) => {
-  const [searchValue, setSearchValue] = useState<string>("");
-  const getSearch = useDebounce(searchValue, delay);
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const debouncedValue = useDebounce(inputValue, delay);
 
   useEffect(() => {
-    if (getSearch) {
-      setSearch(getSearch);
-    }
-  }, [getSearch, setSearch]);
+    setSearch(debouncedValue);
+  }, [debouncedValue, setSearch]);
 
-  const searchInputValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
   };
 
   return (
     <div className={styles.searchInput}>
-      <input type="text" autoFocus name="getName" onChange={searchInputValue} />
+      <input
+        type="text"
+        autoFocus
+        name="getName"
+        onChange={handleInputChange}
+      />
       {children}
-
       {textError && (
         <Ptag size="s" isError>
           {textError}
