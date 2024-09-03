@@ -10,23 +10,29 @@ import PersonList from "./PersonList/PersonList";
 
 const RequestNamePeople = () => {
   const [searchName, setSearchName] = useState<string>("");
-  const [searchNextPage, setSearchNextPage] = useState<string | null>(null);
+  const [searchPage, setSearchPage] = useState<string | null>(null);
   const debouncedSearchName = useDebounce(searchName, 700);
 
   const createFetchUrl = useCallback(() => {
     const params = new URLSearchParams({
       search: debouncedSearchName,
     });
-    return searchNextPage
-      ? searchNextPage
+    return searchPage
+      ? searchPage
       : `${baseUrl}${baseApi}${baseParams}?${params.toString()}`;
-  }, [debouncedSearchName, searchNextPage]);
+  }, [debouncedSearchName, searchPage]);
 
   const { data, loading, error } = useFetch<ApiResponse>(createFetchUrl());
 
   const handleNextPage = () => {
     if (data?.next) {
-      setSearchNextPage(data.next);
+      setSearchPage(data.next);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (data?.previous) {
+      setSearchPage(data.previous);
     }
   };
 
@@ -40,11 +46,16 @@ const RequestNamePeople = () => {
       {loading && <div>Loading...</div>}
       {data && (
         <>
-            
-            {data.results.map(result =>  <PersonList personList={result}  key={result.url}/>)}
-          {data.next && (
+          {data.results.map((result) => (
+            <PersonList personList={result} key={result.url} />
+          ))}
+          {data.next ? (
             <Button type="button" appearance="xl" onClick={handleNextPage}>
               Загрузить еще
+            </Button>
+          ) : (
+            <Button type="button" appearance="xl" onClick={handlePreviousPage}>
+              Назад
             </Button>
           )}
         </>
