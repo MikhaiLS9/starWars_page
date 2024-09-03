@@ -9,4 +9,13 @@
   position: relative;
 
   cursor: pointer;
-} 
+}
+
+.personList_item {
+  display: flex;
+  gap: 12px;
+}
+
+.personList_item > p {
+  color: cadetblue;
+}

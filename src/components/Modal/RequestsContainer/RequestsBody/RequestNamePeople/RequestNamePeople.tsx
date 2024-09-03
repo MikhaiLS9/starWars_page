@@ -40,7 +40,8 @@ const RequestNamePeople = () => {
       {loading && <div>Loading...</div>}
       {data && (
         <>
-            <PersonList personList={data.results}  />
+            
+            {data.results.map(result =>  <PersonList personList={result}  key={result.url}/>)}
           {data.next && (
             <Button type="button" appearance="xl" onClick={handleNextPage}>
               Загрузить еще
