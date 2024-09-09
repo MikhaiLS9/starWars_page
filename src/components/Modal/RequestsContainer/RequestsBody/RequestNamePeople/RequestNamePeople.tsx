@@ -11,7 +11,7 @@ import PersonList from "./PersonList/PersonList";
 const RequestNamePeople = () => {
   const [searchName, setSearchName] = useState<string>("");
   const [searchPage, setSearchPage] = useState<string | null>(null);
-  const [resultStarWars, setResultStarWars] = useState<Person[]>([]); 
+  const [resultStarWars, setResultStarWars] = useState<Person[]>([]);
   const debouncedSearchName = useDebounce(searchName, 700);
 
   const createFetchUrl = useCallback(() => {
@@ -39,7 +39,7 @@ const RequestNamePeople = () => {
 
   useEffect(() => {
     if (data) {
-      setResultStarWars((prevResults) => [...prevResults, ...data.results]); 
+      setResultStarWars((prevResults) => [...prevResults, ...data.results]);
     }
   }, [data]);
 
@@ -54,8 +54,8 @@ const RequestNamePeople = () => {
       {loading && <div>Loading...</div>}
       {data && (
         <>
-          {resultStarWars.map((result) => (
-            <PersonList personList={result} key={result.url} />
+          {resultStarWars.map((result, index) => (
+            <PersonList personList={result} key={result.url + index} />
           ))}
           {data.next ? (
             <Button type="button" appearance="xl" onClick={handleNextPage}>
