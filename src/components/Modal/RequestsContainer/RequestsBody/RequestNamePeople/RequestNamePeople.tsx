@@ -1,7 +1,7 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { baseUrl, baseApi, baseParams } from "../../../../../api/api";
 import { useDebounce } from "../../../../../hooks/useDebounce";
-import { ApiResponse } from "../../../../../interfaces";
+import { ApiResponse, Person } from "../../../../../interfaces";
 
 import SearchInput from "../../../../ui/SearchInput/SearchInput";
 import Button from "../../../../ui/Button/Button";
@@ -11,6 +11,7 @@ import PersonList from "./PersonList/PersonList";
 const RequestNamePeople = () => {
   const [searchName, setSearchName] = useState<string>("");
   const [searchPage, setSearchPage] = useState<string | null>(null);
+  const [resultStarWars, setResultStarWars] = useState<Person[]>([]); 
   const debouncedSearchName = useDebounce(searchName, 700);
 
   const createFetchUrl = useCallback(() => {
@@ -36,17 +37,24 @@ const RequestNamePeople = () => {
     }
   };
 
+  useEffect(() => {
+    if (data) {
+      setResultStarWars((prevResults) => [...prevResults, ...data.results]); 
+    }
+  }, [data]);
+
+  console.log(resultStarWars);
+
   return (
     <>
       <SearchInput
         textError={error?.message || null}
-        delay={700}
         setSearch={setSearchName}
       />
       {loading && <div>Loading...</div>}
       {data && (
         <>
-          {data.results.map((result) => (
+          {resultStarWars.map((result) => (
             <PersonList personList={result} key={result.url} />
           ))}
           {data.next ? (
