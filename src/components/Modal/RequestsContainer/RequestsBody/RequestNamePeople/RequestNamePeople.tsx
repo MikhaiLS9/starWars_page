@@ -5,7 +5,7 @@ import { ApiResponse, Person } from "../../../../../interfaces";
 
 import SearchInput from "../../../../ui/SearchInput/SearchInput";
 import Button from "../../../../ui/Button/Button";
-import useFetch from "../../../../../hooks/useFetch";
+import useFetch from "../../../../../hooks/eeeee";
 import PersonList from "./PersonList/PersonList";
 
 const RequestNamePeople = () => {
