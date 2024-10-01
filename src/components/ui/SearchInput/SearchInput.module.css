@@ -1,0 +1,24 @@
+.searchInput {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  position: relative;
+}
+
+.searchInput input {
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 8px;
+}
+
+.searchInput > svg {
+  position: absolute;
+}
+.crossIcon {
+  right: 10%;
+}
+.searchIcon {
+  pointer-events: none;
+  right: 3%;
+}

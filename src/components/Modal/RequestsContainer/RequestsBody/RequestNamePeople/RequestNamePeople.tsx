@@ -43,8 +43,6 @@ const RequestNamePeople = () => {
     }
   }, [data]);
 
-  console.log(resultStarWars);
-
   return (
     <>
       <SearchInput
